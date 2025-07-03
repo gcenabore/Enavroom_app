@@ -8,15 +8,50 @@ import time
 LOCATIONS = ["PUP Main", "CEA", "Hasmin", "iTech", "COC", "PUP LHS", "Condotel"]
 
 DISTANCE_MATRIX = {
-    ("PUP Main", "CEA"): 2.0, ("PUP Main", "Hasmin"): 1.5, ("PUP Main", "iTech"): 1.2,
-    ("PUP Main", "COC"): 1.0, ("PUP Main", "PUP LHS"): 1.7, ("PUP Main", "Condotel"): 1.5,
-    ("CEA", "Hasmin"): 2.0, ("CEA", "iTech"): 5.0, ("CEA", "COC"): 4.5,
-    ("CEA", "PUP LHS"): 4.0, ("CEA", "Condotel"): 4.5,
-    ("Hasmin", "iTech"): 4.0, ("Hasmin", "COC"): 3.5, ("Hasmin", "PUP LHS"): 0.5,
+    ("PUP Main", "CEA"): 2.0, 
+    ("PUP Main", "Hasmin"): 1.5, 
+    ("PUP Main", "iTech"): 1.2,
+    ("PUP Main", "COC"): 1.0, 
+    ("PUP Main", "PUP LHS"): 1.7, 
+    ("PUP Main", "Condotel"): 1.5,
+    ("CEA", "Hasmin"): 2.0, 
+    ("CEA", "iTech"): 5.0, 
+    ("CEA", "COC"): 4.5,
+    ("CEA", "PUP LHS"): 4.0, 
+    ("CEA", "Condotel"): 4.5,
+    ("Hasmin", "iTech"): 4.0, 
+    ("Hasmin", "COC"): 3.5, 
+    ("Hasmin", "PUP LHS"): 0.5,
     ("Hasmin", "Condotel"): 1.5,
-    ("iTech", "COC"): 0.5, ("iTech", "PUP LHS"): 2.5, ("iTech", "Condotel"): 0.5,
-    ("COC", "PUP LHS"): 2.0, ("COC", "Condotel"): 1.0,
+    ("iTech", "COC"): 0.5, 
+    ("iTech", "PUP LHS"): 2.5, 
+    ("iTech", "Condotel"): 0.5,
+    ("COC", "PUP LHS"): 2.0, 
+    ("COC", "Condotel"): 1.0,
     ("PUP LHS", "Condotel"): 2.0,
+}
+ROUTE_IMAGE_MAP = {
+    ("PUP Main", "CEA"): "pup_main_to_cea.png", 
+    ("PUP Main", "Hasmin"): "pup_main_to_hasmin.png", 
+    ("PUP Main", "iTech"): "pup_main_to_itech.png",
+    ("PUP Main", "COC"): "pup_main_to_coc.png", 
+    ("PUP Main", "PUP LHS"): "pup_main_to_pup_lhs.png", 
+    ("PUP Main", "Condotel"): "pup_main_to_condotel.png",
+    ("CEA", "Hasmin"): "cea_to_hasmin.png", 
+    ("CEA", "iTech"): "cea_to_itech.png", 
+    ("CEA", "COC"): "cea_to_coc.png",
+    ("CEA", "PUP LHS"): "cea_to_pup_lhs.png", 
+    ("CEA", "Condotel"): "cea_to_condotel.png",
+    ("Hasmin", "iTech"): "hasmin_to_itech.png", 
+    ("Hasmin", "COC"): "hasmin_to_coc.png", 
+    ("Hasmin", "PUP LHS"): "hasmin_to_pup_lhs.png",
+    ("Hasmin", "Condotel"): "hasmin_to_condotel.png",
+    ("iTech", "COC"): "itech_to_coc.png",    
+    ("iTech", "PUP LHS"): "itech_to_pup_lhs.png", 
+    ("iTech", "Condotel"): "itech_to_condotel.png",
+    ("COC", "PUP LHS"): "coc_to_pup_lhs.png", 
+    ("COC", "Condotel"): "coc_to_condotel.png",
+    ("PUP LHS", "Condotel"): "pup_lhs_to_condotel.png",
 }
 
 _temp_matrix = {}
@@ -50,6 +85,7 @@ def get_distance(start, end):
 
 class Booking:
     def __init__(self, vehicle_type, start, end, distance, cost, payment_method="Cash", status ="active"):
+
         self.id = str(uuid.uuid4())[:8]
         self.vehicle_type = vehicle_type
         self.start = start

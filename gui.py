@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk, ImageDraw, ImageFont
 import os
-from bookingsystem import Booking, BookingSystem, get_distance, LOCATIONS, DISTANCE_MATRIX 
+from bookingsystem import Booking, BookingSystem, get_distance, LOCATIONS, DISTANCE_MATRIX, ROUTE_IMAGE_MAP 
 
 PURPLE_DARK = "#360042"
 HIGHLIGHT_COLOR = "#6A0DAD"
@@ -854,7 +854,7 @@ class MapPage(tk.Frame):
         self._create_header("Confirm Route", lambda: controller.show_frame("PUandDOPage"))
 
         # Placeholder for map display
-        map_image_filename = "main_lhs_map.png" # Using a generic map for now
+        map_image_filename = "main_lhs_map (1).png" # Using a generic map for now
         map_img = load_image(map_image_filename, (375, 300))
         if map_img:
             map_label = tk.Label(self, image=map_img, bg=GRAY_LIGHT)
@@ -872,8 +872,8 @@ class MapPage(tk.Frame):
         self.cost_label.pack(pady=(0, 10))
 
         book_now_button = tk.Button(self, text="Book Now", command=self._on_book_now,
-                                     font=FONT_BUTTON, bg=PURPLE_DARK, fg=WHITE,
-                                     padx=20, pady=10, relief="raised", bd=0, cursor="hand2")
+        font=FONT_BUTTON, bg=PURPLE_DARK, fg=WHITE,
+        padx=20, pady=10, relief="raised", bd=0, cursor="hand2")
         book_now_button.pack(fill="x", padx=30, pady=(10, 10))
     
     def _create_header(self, title, back_command):
