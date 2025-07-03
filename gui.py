@@ -423,7 +423,7 @@ class BookEnavroomPage(tk.Frame):
 
         self._create_header("Book Enavroom", lambda: controller.show_frame("HomePage"))
 
-        self._create_map_section("main_lhs_map.png")
+        self._create_map_section("travel_enavroom.png")
 
         self.scrollable_content_frame = tk.Frame(self, bg=GRAY_LIGHT)
         self.scrollable_content_frame.pack(fill="both", expand=True)
@@ -586,7 +586,7 @@ class BookEnacarPage(tk.Frame):
 
         self._create_header("Book Enacar", lambda: controller.show_frame("HomePage"))
 
-        self._create_map_section("main_lhs_map.png")
+        self._create_map_section("travel_enacar.png")
 
         self.scrollable_content_frame = tk.Frame(self, bg=GRAY_LIGHT)
         self.scrollable_content_frame.pack(fill="both", expand=True)
