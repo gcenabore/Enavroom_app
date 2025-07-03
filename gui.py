@@ -22,7 +22,8 @@ FONT_HEADER = ("Arial", 18, "bold") # For page titles
 FONT_BODY = ("Arial", 10)
 
 _image_references = {}
-IMAGE_BASE_PATH = os.path.join(os.path.expanduser('~'), 'Downloads')
+
+IMAGE_BASE_PATH = os.path.join(os.path.expanduser('~'), 'Enavroom_img')
 
 def load_image(filename, size=None, is_circular=False, fill_color=(200, 200, 200)):
     """
@@ -160,7 +161,7 @@ class StartPage(tk.Frame):
 
         # Enavroom Logo
         logo_img_size = (250, 80)
-        logo_img = load_image("enavroom_logo.png", size=logo_img_size)
+        logo_img = load_image("logo_enavroom.png", size=logo_img_size)
 
         if logo_img:
             logo_label = tk.Label(self, image=logo_img, bg=PURPLE_DARK)
@@ -204,7 +205,7 @@ class HomePage(tk.Frame):
         header_frame.pack(fill=tk.X, side=tk.TOP)
         header_frame.pack_propagate(False)
 
-        logo_header_img = load_image("enavroom_logo.png", (250, 80))
+        logo_header_img = load_image("logo_enavroom.png", (250, 80))
         if logo_header_img:
             logo_label = tk.Label(header_frame, image=logo_header_img, bg=PURPLE_DARK, bd=0, relief="flat")
             logo_label.image = logo_header_img
@@ -774,8 +775,8 @@ class PUandDOPage(tk.Frame):
         self.cost_label.pack(pady=20)
 
         book_now_button = tk.Button(self, text="Book Now", command=self._on_book_now,
-                                     font=FONT_BUTTON, bg=PURPLE_DARK, fg=WHITE,
-                                     padx=20, pady=10, relief="raised", bd=0, cursor="hand2")
+        font=FONT_BUTTON, bg=PURPLE_DARK, fg=WHITE,
+        padx=20, pady=10, relief="raised", bd=0, cursor="hand2")
         book_now_button.pack(fill="x", padx=30, pady=(10, 10))
 
     def _create_header(self, title, back_command):
@@ -850,19 +851,11 @@ class MapPage(tk.Frame):
         super().__init__(parent)
         self.controller = controller
         self.configure(bg=GRAY_LIGHT)
-
         self._create_header("Confirm Route", lambda: controller.show_frame("PUandDOPage"))
 
-        # Placeholder for map display
-        map_image_filename = "main_lhs_map (1).png" # Using a generic map for now
-        map_img = load_image(map_image_filename, (375, 300))
-        if map_img:
-            map_label = tk.Label(self, image=map_img, bg=GRAY_LIGHT)
-            map_label.image = map_img
-            map_label.pack(fill="both", expand=True, pady=(10,0))
-        else:
-            tk.Label(self, text=f"Map View\n(Map not found: {map_image_filename})",
-                     font=("Arial", 16), bg="lightgray", fg="darkgray", height=15, wraplength=300).pack(fill="both", expand=True, pady=(10,0))
+        self.map_label = tk.Label(self, bg=GRAY_LIGHT)
+        self.map_label.pack(fill="both", expand=True, pady=(10, 0))
+
 
         # Display route details
         self.route_label = tk.Label(self, text="", font=FONT_BODY, bg=GRAY_LIGHT, fg=TEXT_COLOR, wraplength=300)
@@ -875,6 +868,7 @@ class MapPage(tk.Frame):
         font=FONT_BUTTON, bg=PURPLE_DARK, fg=WHITE,
         padx=20, pady=10, relief="raised", bd=0, cursor="hand2")
         book_now_button.pack(fill="x", padx=30, pady=(10, 10))
+
     
     def _create_header(self, title, back_command):
         header_frame = tk.Frame(self, bg=PURPLE_DARK, height=50)
@@ -890,10 +884,29 @@ class MapPage(tk.Frame):
         tk.Label(header_frame, text=title, font=FONT_HEADER, bg=PURPLE_DARK, fg=WHITE).pack(expand=True)
 
     def on_show(self):
-        # Update route and cost details based on current booking details
+
+    # Update route and cost details
         details = self.controller.current_booking_details
-        self.route_label.config(text=f"From: {details.get('pickup_location')}\nTo: {details.get('dropoff_location')}\nDistance: {details.get('distance'):.1f} km")
-        self.cost_label.config(text=f"Total Cost: ₱{details.get('cost'):.2f}")
+        pickup = details.get('pickup_location')
+        dropoff = details.get('dropoff_location')
+        distance = details.get('distance')
+        cost = details.get('cost')
+
+        # Determine map image based on pickup/dropoff
+        image_name = ROUTE_IMAGE_MAP.get((pickup, dropoff), "default_map.png")
+        map_img = load_image(image_name, (375, 300))
+
+        if map_img:
+            self.map_label.configure(image=map_img)
+            self.map_label.image = map_img
+        else:
+            self.map_label.configure(text=f"No map for route\n({pickup} → {dropoff})", image='', font=("Arial", 12), fg="gray")
+
+        self.route_label.config(text=f"From: {pickup}\nTo: {dropoff}\nDistance: {distance:.1f} km")
+        self.cost_label.config(text=f"Total Cost: ₱{cost:.2f}")
+
+    def format_filename(pickup, dropoff):
+        return f"map_{pickup.lower().replace(' ', '_')}_{dropoff.lower().replace(' ', '_')}.png"
 
     def _on_book_now(self):
         # map.py -> loading_page.py
