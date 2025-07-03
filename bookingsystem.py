@@ -1,8 +1,6 @@
 import json
 import uuid
 import math
-import time
-
 
 # --- Booking System Logic (Copied from previous code) ---
 LOCATIONS = ["PUP Main", "CEA", "Hasmin", "iTech", "COC", "PUP LHS", "Condotel"]
@@ -116,7 +114,6 @@ BASE_PRICES = {
     "Car (6-seater)": 450
 }
 
-
 def get_distance(start, end):
     if start == end:
         return 0
@@ -159,21 +156,33 @@ class BookingSystem:
         cost = self.calculate_cost(vehicle_type, distance)
         booking = Booking(vehicle_type, start, end, distance, cost, payment_method)
         self.bookings.append(booking)
-        self.save()
         print(f"DEBUG: New booking created: {booking.to_dict()}")
         return booking
+
 
     def cancel(self, booking_id):
         for booking in self.bookings:
             if booking.id == booking_id:
                 booking.status = "cancelled"
                 self.save()
+                self.log_to_txt(booking, action="Cancelled")  # <- NEW
                 return True
         return False
+
 
     def save(self):
         with open(self.file, "w") as f:
             json.dump([b.to_dict() for b in self.bookings], f, indent=2)
+
+    def log_to_txt(self, booking, action="Booked"):
+        log_entry = (
+            f"{action.upper()} | ID: {booking.id} | "
+            f"{booking.vehicle_type} | {booking.start} → {booking.end} | "
+            f"{booking.distance:.1f} km | ₱{booking.cost:.2f} | "
+            f"{booking.payment_method} | STATUS: {booking.status}\n"
+        )
+        with open("booking_log.txt", "a", encoding="utf-8") as log_file:  # <-- add encoding
+            log_file.write(log_entry)
 
     def load(self):
         try:

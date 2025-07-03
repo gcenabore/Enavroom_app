@@ -378,6 +378,7 @@ class HistoryPage(tk.Frame):
     def clear_history(self):
         if messagebox.askyesno("Clear All History", "Are you sure you want to delete all booking history?"):
             self.controller.booking_system.clear_all()
+            open("booking_log.txt", "w").close()
             self.update_history_display()
             messagebox.showinfo("Cleared", "All booking history has been cleared.")
 
@@ -1129,19 +1130,29 @@ class DonePage(tk.Frame):
     def on_show(self):
         # Display final booking details
         details = self.controller.current_booking_details
-        summary_text = (
-            f"Vehicle: {details.get('vehicle_type', 'N/A')}\n"
-            f"From: {details.get('pickup_location', 'N/A')}\n"
-            f"To: {details.get('dropoff_location', 'N/A')}\n"
-            f"Distance: {details.get('distance', 0):.1f} km\n"
-            f"Total Paid: ₱{details.get('cost', 0):.2f} ({details.get('payment_method', 'N/A')})"
-        )
-        self.summary_label.config(text=summary_text)
-        # Clear current booking details after showing the done page
-        self.controller.current_booking_details = {
-            "vehicle_type": "", "pickup_location": "", "dropoff_location": "",
-            "distance": 0, "cost": 0, "payment_method": "Cash", "booking_id": None
-        }
+        booking_id = details.get("booking_id")
+
+    def clear_history(self):
+        if messagebox.askyesno("Clear All History", "Are you sure you want to delete all booking history?"):
+            self.controller.booking_system.clear_all()
+            # Also clear the .txt log
+            open("booking_log.txt", "w").close()
+            self.update_history_display()
+            messagebox.showinfo("Cleared", "All booking history has been cleared.")
+
+        # summary_text = (
+        #     f"Vehicle: {details.get('vehicle_type', 'N/A')}\n"
+        #     f"From: {details.get('pickup_location', 'N/A')}\n"
+        #     f"To: {details.get('dropoff_location', 'N/A')}\n"
+        #     f"Distance: {details.get('distance', 0):.1f} km\n"
+        #     f"Total Paid: ₱{details.get('cost', 0):.2f} ({details.get('payment_method', 'N/A')})"
+        # )
+        # self.summary_label.config(text=summary_text)
+        # # Clear current booking details after showing the done page
+        # self.controller.current_booking_details = {
+        #     "vehicle_type": "", "pickup_location": "", "dropoff_location": "",
+        #     "distance": 0, "cost": 0, "payment_method": "Cash", "booking_id": None
+        # }
 
 # --- Main execution block ---
 if __name__ == "__main__":
