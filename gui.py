@@ -23,7 +23,8 @@ FONT_BODY = ("Arial", 10)
 
 _image_references = {}
 
-IMAGE_BASE_PATH = os.path.join(os.path.expanduser('~'), 'Enavroom_img')
+
+IMAGE_BASE_PATH = os.path.join(os.path.expanduser('~'), 'enavroom_assets')
 
 def load_image(filename, size=None, is_circular=False, fill_color=(200, 200, 200)):
     """
@@ -184,14 +185,14 @@ class StartPage(tk.Frame):
 
         # Exit Button
         exit_button = tk.Button(self, text="Exit", font=FONT_BUTTON,
-                                command=controller.exit_app,
-                                bg=WHITE, fg=TEXT_COLOR,
-                                width=15, height=2,
-                                relief="flat", bd=0, cursor="hand2",
-                                highlightbackground=GRAY_LIGHT,
-                                highlightthickness=1,
-                                border=0,
-                                overrelief="raised")
+        command=controller.exit_app,
+        bg=WHITE, fg=TEXT_COLOR,
+        width=15, height=2,
+        relief="flat", bd=0, cursor="hand2",
+        highlightbackground=GRAY_LIGHT,
+        highlightthickness=1,
+        border=0,
+        overrelief="raised")
         exit_button.place(relx=0.5, rely=0.75, anchor=tk.CENTER)
 
 class HomePage(tk.Frame):
@@ -394,12 +395,7 @@ class HistoryPage(tk.Frame):
             
             booking_frame = tk.Frame(self.history_list_frame, bg=bg_color, bd=1, relief="groove")
             booking_frame.pack(fill="x", padx=5, pady=2)
-
-            # bg_color = "#d10d1d" if booking.status == "cancelled" else (RED_COLOR if i % 2 == 0 else WHITE)
-            # booking_frame = tk.Frame(self.history_list_frame, bg=bg_color, bd=1, relief="groove")
-            # booking_frame.pack(fill="x", padx=5, pady=2)
-            
-
+   
             tk.Label(booking_frame, text=f"Booking ID: {booking.id}", font=FONT_SUBTITLE, bg=bg_color, fg=TEXT_COLOR, anchor="w").pack(fill="x")
             tk.Label(booking_frame, text=f"Vehicle: {booking.vehicle_type}", font=FONT_NORMAL, bg=bg_color, fg=TEXT_COLOR, anchor="w").pack(fill="x")
             tk.Label(booking_frame, text=f"Route: {booking.start} to {booking.end}", font=FONT_NORMAL, bg=bg_color, fg=TEXT_COLOR, anchor="w").pack(fill="x")
@@ -758,8 +754,9 @@ class PUandDOPage(tk.Frame):
         # Pickup Location
         pickup_frame = tk.Frame(self, bg=WHITE, bd=1, relief="solid", padx=10, pady=5)
         pickup_frame.pack(fill="x", padx=30, pady=5)
-        tk.Label(pickup_frame, text="Pickup Location:", font=FONT_SUBTITLE, bg=WHITE, fg=TEXT_COLOR).pack(anchor="w")
-        pickup_menu = ttk.OptionMenu(pickup_frame, self.pickup_var, LOCATIONS[0], *LOCATIONS, command=self._update_cost)
+
+        pickup_menu = ttk.OptionMenu(pickup_frame, self.pickup_var, LOCATIONS[0], *LOCATIONS, command=self._on_pickup_selected)
+        self.pickup_menu = pickup_menu  # Optional: Store reference
         pickup_menu.config(width=30)
         pickup_menu.pack(fill="x")
 
@@ -767,7 +764,9 @@ class PUandDOPage(tk.Frame):
         dropoff_frame = tk.Frame(self, bg=WHITE, bd=1, relief="solid", padx=10, pady=5)
         dropoff_frame.pack(fill="x", padx=30, pady=5)
         tk.Label(dropoff_frame, text="Dropoff Location:", font=FONT_SUBTITLE, bg=WHITE, fg=TEXT_COLOR).pack(anchor="w")
+
         dropoff_menu = ttk.OptionMenu(dropoff_frame, self.dropoff_var, LOCATIONS[1], *LOCATIONS, command=self._update_cost)
+        self.dropoff_menu = dropoff_menu  # Store for dynamic updates
         dropoff_menu.config(width=30)
         dropoff_menu.pack(fill="x")
 
@@ -778,6 +777,24 @@ class PUandDOPage(tk.Frame):
         font=FONT_BUTTON, bg=PURPLE_DARK, fg=WHITE,
         padx=20, pady=10, relief="raised", bd=0, cursor="hand2")
         book_now_button.pack(fill="x", padx=30, pady=(10, 10))
+
+    def _on_pickup_selected(self, selected_pickup):
+        drop_menu = self.dropoff_menu["menu"]
+        drop_menu.delete(0, "end")  # Clear current drop-off options
+
+        for location in LOCATIONS:
+            if location != selected_pickup:
+                drop_menu.add_command(label=location, command=lambda loc=location: self.dropoff_var.set(loc))
+
+        # If current dropoff equals pickup, reset it to another option
+        if self.dropoff_var.get() == selected_pickup:
+            for alt in LOCATIONS:
+                if alt != selected_pickup:
+                    self.dropoff_var.set(alt)
+                    break
+
+        self._update_cost()
+
 
     def _create_header(self, title, back_command):
         header_frame = tk.Frame(self, bg=PURPLE_DARK, height=50)
@@ -904,9 +921,6 @@ class MapPage(tk.Frame):
 
         self.route_label.config(text=f"From: {pickup}\nTo: {dropoff}\nDistance: {distance:.1f} km")
         self.cost_label.config(text=f"Total Cost: ₱{cost:.2f}")
-
-    def format_filename(pickup, dropoff):
-        return f"map_{pickup.lower().replace(' ', '_')}_{dropoff.lower().replace(' ', '_')}.png"
 
     def _on_book_now(self):
         # map.py -> loading_page.py

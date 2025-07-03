@@ -32,68 +32,68 @@ DISTANCE_MATRIX = {
 }
 
 ROUTE_IMAGE_MAP = {
-    ("PUP Main", "CEA"): "pup_main_to_cea.png",
-    ("CEA", "PUP Main"): "pup_main_to_cea.png",
+    ("PUP Main", "CEA"): "pup_main_to_cea.jpg",
+    ("CEA", "PUP Main"): "pup_main_to_cea.jpg",
 
-    ("PUP Main", "Hasmin"): "pup_main_to_hasmin.png",
-    ("Hasmin", "PUP Main"): "pup_main_to_hasmin.png",
+    ("PUP Main", "Hasmin"): "pup_main_to_hasmin.jpg",
+    ("Hasmin", "PUP Main"): "pup_main_to_hasmin.jpg",
 
-    ("PUP Main", "iTech"): "pup_main_to_itech.png",
-    ("iTech", "PUP Main"): "pup_main_to_itech.png",
+    ("PUP Main", "iTech"): "pup_main_to_itech.jpg",
+    ("iTech", "PUP Main"): "pup_main_to_itech.jpg",
 
-    ("PUP Main", "COC"): "pup_main_to_coc.png",
-    ("COC", "PUP Main"): "pup_main_to_coc.png",
+    ("PUP Main", "COC"): "pup_main_to_coc.jpg",
+    ("COC", "PUP Main"): "pup_main_to_coc.jpg",
 
     ("PUP Main", "PUP LHS"): "pup_main_to_pup_lhs.png",
     ("PUP LHS", "PUP Main"): "pup_main_to_pup_lhs.png",
 
-    ("PUP Main", "Condotel"): "pup_main_to_condotel.png",
-    ("Condotel", "PUP Main"): "pup_main_to_condotel.png",
+    ("PUP Main", "Condotel"): "pup_main_to_condotel.jpg",
+    ("Condotel", "PUP Main"): "pup_main_to_condotel.jpg",
 
-    ("CEA", "Hasmin"): "cea_to_hasmin.png",
-    ("Hasmin", "CEA"): "cea_to_hasmin.png",
+    ("CEA", "Hasmin"): "cea_to_hasmin.jpg",
+    ("Hasmin", "CEA"): "cea_to_hasmin.jpg",
 
-    ("CEA", "iTech"): "cea_to_itech.png",
-    ("iTech", "CEA"): "cea_to_itech.png",
+    ("CEA", "iTech"): "cea_to_itech.jpg",
+    ("iTech", "CEA"): "cea_to_itech.jpg",
 
-    ("CEA", "COC"): "cea_to_coc.png",
-    ("COC", "CEA"): "cea_to_coc.png",
+    ("CEA", "COC"): "cea_to_coc.jpg",
+    ("COC", "CEA"): "cea_to_coc.jpg",
 
-    ("CEA", "PUP LHS"): "cea_to_pup_lhs.png",
-    ("PUP LHS", "CEA"): "cea_to_pup_lhs.png",
+    ("CEA", "PUP LHS"): "cea_to_pup_lhs.jpg",
+    ("PUP LHS", "CEA"): "cea_to_pup_lhs.jpg",
 
-    ("CEA", "Condotel"): "cea_to_condotel.png",
-    ("Condotel", "CEA"): "cea_to_condotel.png",
+    ("CEA", "Condotel"): "cea_to_condotel.jpg",
+    ("Condotel", "CEA"): "cea_to_condotel.jpg",
 
-    ("Hasmin", "iTech"): "hasmin_to_itech.png",
-    ("iTech", "Hasmin"): "hasmin_to_itech.png",
+    ("Hasmin", "iTech"): "hasmin_to_itech.jpg",
+    ("iTech", "Hasmin"): "hasmin_to_itech.jpg",
 
-    ("Hasmin", "COC"): "hasmin_to_coc.png",
-    ("COC", "Hasmin"): "hasmin_to_coc.png",
+    ("Hasmin", "COC"): "hasmin_to_coc.jpg",
+    ("COC", "Hasmin"): "hasmin_to_coc.jpg",
 
-    ("Hasmin", "PUP LHS"): "hasmin_to_pup_lhs.png",
-    ("PUP LHS", "Hasmin"): "hasmin_to_pup_lhs.png",
+    ("Hasmin", "PUP LHS"): "hasmin_to_pup_lhs.jpg",
+    ("PUP LHS", "Hasmin"): "hasmin_to_pup_lhs.jpg",
 
-    ("Hasmin", "Condotel"): "hasmin_to_condotel.png",
-    ("Condotel", "Hasmin"): "hasmin_to_condotel.png",
+    ("Hasmin", "Condotel"): "hasmin_to_condotel.jpg",
+    ("Condotel", "Hasmin"): "hasmin_to_condotel.jpg",
 
-    ("iTech", "COC"): "itech_to_coc.png",
-    ("COC", "iTech"): "itech_to_coc.png",
+    ("iTech", "COC"): "itech_to_coc.jpg",
+    ("COC", "iTech"): "itech_to_coc.jpg",
 
-    ("iTech", "PUP LHS"): "itech_to_pup_lhs.png",
-    ("PUP LHS", "iTech"): "itech_to_pup_lhs.png",
+    ("iTech", "PUP LHS"): "itech_to_pup_lhs.jpg",
+    ("PUP LHS", "iTech"): "itech_to_pup_lhs.jpg",
 
-    ("iTech", "Condotel"): "itech_to_condotel.png",
-    ("Condotel", "iTech"): "itech_to_condotel.png",
+    ("iTech", "Condotel"): "itech_to_condotel.jpg",
+    ("Condotel", "iTech"): "itech_to_condotel.jpg",
 
-    ("COC", "PUP LHS"): "coc_to_pup_lhs.png",
-    ("PUP LHS", "COC"): "coc_to_pup_lhs.png",
+    ("COC", "PUP LHS"): "coc_to_pup_lhs.jpg",
+    ("PUP LHS", "COC"): "coc_to_pup_lhs.jpg",
 
-    ("COC", "Condotel"): "coc_to_condotel.png",
-    ("Condotel", "COC"): "coc_to_condotel.png",
+    ("COC", "Condotel"): "coc_to_condotel.jpg",
+    ("Condotel", "COC"): "coc_to_condotel.jpg",
 
-    ("PUP LHS", "Condotel"): "pup_lhs_to_condotel.png",
-    ("Condotel", "PUP LHS"): "pup_lhs_to_condotel.png"
+    ("PUP LHS", "Condotel"): "pup_lhs_to_condotel.jpg",
+    ("Condotel", "PUP LHS"): "pup_lhs_to_condotel.jpg"
 }
 
 _temp_matrix = {}
