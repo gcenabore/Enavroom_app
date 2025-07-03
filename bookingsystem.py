@@ -144,14 +144,13 @@ class BookingSystem:
     def __init__(self, file="bookings.json"):
         self.file = file
         self.bookings = []
+        self.load()
 
     def calculate_cost(self, vehicle_type, distance):
-        base_fare = BASE_PRICES.get(vehicle_type, 75) # Default for Enavroom if not found
-        
+        base_fare = BASE_PRICES.get(vehicle_type, 75)
         if distance > 1:
             additional_km = math.ceil(distance - 1)
-            base_fare += additional_km * 10 # ₱10 per additional KM
-        
+            base_fare += additional_km * 10
         surcharge = VEHICLE_SURCHARGES.get(vehicle_type, 0)
         return base_fare + surcharge
 
@@ -160,6 +159,7 @@ class BookingSystem:
         cost = self.calculate_cost(vehicle_type, distance)
         booking = Booking(vehicle_type, start, end, distance, cost, payment_method)
         self.bookings.append(booking)
+        self.save()
         print(f"DEBUG: New booking created: {booking.to_dict()}")
         return booking
 
@@ -167,12 +167,13 @@ class BookingSystem:
         for booking in self.bookings:
             if booking.id == booking_id:
                 booking.status = "cancelled"
+                self.save()
                 return True
         return False
 
     def save(self):
-        with open(self.title, "w") as f:
-            json.dump([b.to_dict() for b in self.bookings], f, indent =2)
+        with open(self.file, "w") as f:
+            json.dump([b.to_dict() for b in self.bookings], f, indent=2)
 
     def load(self):
         try:
@@ -180,4 +181,9 @@ class BookingSystem:
                 data = json.load(f)
                 self.bookings = [Booking(**d) for d in data]
         except:
-            self.bookings = [] 
+            self.bookings = []
+
+    def clear_all(self):
+        self.bookings = []
+        self.save()
+

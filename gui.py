@@ -98,7 +98,9 @@ class App(tk.Tk):
         self.configure(bg=PURPLE_DARK)
 
         self.frames = {}
-        self.booking_system = BookingSystem()
+        self.booking_system = BookingSystem("bookings.json")  # Initialize booking system with file
+        self.booking_system.load() # Load existing bookings from file
+
         
         # State variables to pass data between pages
         self.current_booking_details = {
@@ -140,6 +142,7 @@ class App(tk.Tk):
     def exit_app(self):
         """Prompts user and exits the application."""
         if messagebox.askyesno("Exit", "Are you sure you want to exit?"):
+            self.booking_system.save()
             self.destroy()
 
     def update_booking_details(self, **kwargs):
@@ -288,6 +291,16 @@ class HomePage(tk.Frame):
         if history_button:
             history_button.pack(side=tk.LEFT, padx=20)
 
+        exit_button = tk.Button(
+            self, text="Exit App",
+            font=FONT_BUTTON,
+            command=controller.destroy,
+            bg= "#470366", fg=WHITE,
+            padx=20, pady=10,
+            relief="raised", bd=0,
+            cursor="hand2"
+        )
+        exit_button.pack(pady=(10, 20))
 
 class MessagePage(tk.Frame):
     def __init__(self, parent, controller):
@@ -354,7 +367,19 @@ class HistoryPage(tk.Frame):
         self.history_list_frame = tk.Frame(self, bg=WHITE, bd=1, relief="solid")
         self.history_list_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
+        clear_button = tk.Button(self, text="Clear History", font=FONT_BUTTON,
+        command=self.clear_history,
+        bg= "#470366", fg=WHITE,
+        padx=10, pady=5, relief="raised", bd=0, cursor="hand2")
+        clear_button.pack(pady=(0, 10))
+
         self.update_history_display()
+        
+    def clear_history(self):
+        if messagebox.askyesno("Clear All History", "Are you sure you want to delete all booking history?"):
+            self.controller.booking_system.clear_all()
+            self.update_history_display()
+            messagebox.showinfo("Cleared", "All booking history has been cleared.")
 
     def _create_header(self, title, back_command):
         header_frame = tk.Frame(self, bg=PURPLE_DARK, height=50)
@@ -372,9 +397,14 @@ class HistoryPage(tk.Frame):
         tk.Label(header_frame, text=title, font=FONT_HEADER, bg=PURPLE_DARK, fg=WHITE).pack(expand=True)
 
     def on_show(self):
-        """Called when the frame is shown."""
+        self.controller.booking_system.load()  # Always load latest data from file
         self.update_history_display()
 
+    def on_show(self):
+        """Called when the frame is shown."""
+        self.update_history_display()
+    
+        
     def update_history_display(self):
         # Clear previous history entries
         for widget in self.history_list_frame.winfo_children():
@@ -391,7 +421,7 @@ class HistoryPage(tk.Frame):
                 bg_color = "#eb868f" #red for cancelled bookings
     
             else:
-                bg_color = "#75e990" if i % 2 == 0 else WHITE
+                bg_color = "#6ce989" #if i % 2 == 0 else WHITE
             
             booking_frame = tk.Frame(self.history_list_frame, bg=bg_color, bd=1, relief="groove")
             booking_frame.pack(fill="x", padx=5, pady=2)
